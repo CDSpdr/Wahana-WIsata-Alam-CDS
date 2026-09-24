@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wahana Wisata Alam CDS - Pemesanan Online</title>
+    <style>
+        :root {
+            --primary: #d97706;
+            --primary-dark: #b45309;
+            --bg-dark: #1c1917;
+            --card-bg: #292524;
+            --text-light: #f5f5f4;
+            --accent: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding-bottom: 120px;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #d6d3d1;
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .user-info {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #44403c;
+        }
+
+        .user-info h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #57534e;
+            background-color: #1c1917;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #44403c;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .product-details {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .product-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1c1917;
+            border-radius: 6px;
+            padding: 4px;
+            border: 1px solid #57534e;
+        }
+
+        .btn-qty {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .qty-input {
+            width: 40px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #18181b;
+            border-top: 2px solid var(--primary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .cart-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .btn-checkout {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-checkout:hover {
+            background-color: #16a34a;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Wahana Wisata Alam CDS</h1>
+        <p>Pemesanan Tiket & Wahana Secara Langsung</p>
+    </header>
+
+    <div class="container">
+        <!-- Informasi Pengunjung -->
+        <div class="user-info">
+            <h2>Data Pemesan</h2>
+            <div class="form-group">
+                <label for="nama">Nama Lengkap *</label>
+                <input type="text" id="nama" placeholder="Masukkan nama Anda" required>
+            </div>
+            <div class="form-group">
+                <label for="whatsapp">Nomor WhatsApp *</label>
+                <input type="tel" id="whatsapp" placeholder="Contoh: 08123456789" required>
+            </div>
+        </div>
+
+        <!-- Daftar Produk/Layanan -->
+        <h2 style="margin-bottom: 15px; color: var(--accent);">Daftar Layanan & Tiket</h2>
+        <div class="product-grid" id="productGrid"></div>
+    </div>
+
+    <!-- Sticky Cart Footer -->
+    <div class="cart-bar">
+        <div class="cart-info">
+            <span style="font-size: 0.8rem; color: #a1a1aa;">Total Estimasi:</span>
+            <span class="total-price" id="totalDisplay">Rp 0</span>
+        </div>
+        <button class="btn-checkout" onclick="kirimPesanan()">Pesan Via WhatsApp</button>
+    </div>
+
+    <script>
+        // GANTI URL INI DENGAN URL GOOGLE APPS SCRIPT ANDA
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby.../exec";
+        const ADMIN_WA = "6281519553000";
+
+        const products = [
+            { id: 1, name: "Harga tiket masuk", price: 10000, img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400" },
+            { id: 2, name: "River Tubing Midle Track", price: 75000, img: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400" },
+            { id: 3, name: "Camping (tenda sendiri)", price: 35000, img: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400" },
+            { id: 4, name: "Kebersihan, Sewa lahan (Camping Tenda Pengelola)", price: 35000, img: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=400" },
+            { id: 5, name: "Tenda Double Layer Kapasitas 4", price: 150000, img: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=400" },
+            { id: 6, name: "Tenda Double Layer Kapasitas 6", price: 185000, img: "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=400" },
+            { id: 7, name: "Fun Games (Min 20 Orang)", price: 75000, img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400" },
+            { id: 8, name: "Sewa Tikar", price: 15000, img: "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=400" },
+            { id: 9, name: "Sewa Gazebo (Per Hari)", price: 100000, img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400" },
+            { id: 10, name: "Parkir kendaraan R2", price: 10000, img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400" },
+            { id: 11, name: "Parkir kendaraan R4", price: 20000, img: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=400" },
+            { id: 12, name: "Sewa Ban dan Pelampung", price: 30000, img: "https://images.unsplash.com/photo-1563299796-b729d0af54a5?w=400" },
+            { id: 13, name: "Paket Makan Siang Nasi Liwet", price: 35000, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" },
+            { id: 14, name: "Paket A Dokumentasi River Tubing", price: 50000, img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400" },
+            { id: 15, name: "Paket B Dokumentasi River Tubing (Drone)", price: 150000, img: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=400" },
+            { id: 16, name: "Paket Family Komplit 4 Orang", price: 1380000, img: "https://images.unsplash.com/photo-1537225228614-56cc3556d7ed?w=400" },
+            { id: 17, name: "Villa Size Small", price: 350000, img: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400" }
+        ];
+
+        let cart = {};
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="product-details">
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+                        <div class="quantity-control">
+                            <button class="btn-qty" onclick="updateQty(${p.id}, -1)">-</button>
+                            <input type="text" class="qty-input" id="qty-${p.id}" value="0" readonly>
+                            <button class="btn-qty" onclick="updateQty(${p.id}, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateQty(id, change) {
+            if (!cart[id]) cart[id] = 0;
+            cart[id] += change;
+            if (cart[id] < 0) cart[id] = 0;
+            
+            document.getElementById(`qty-${id}`).value = cart[id];
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            for (let id in cart) {
+                let product = products.find(p => p.id == id);
+                if (product) {
+                    total += product.price * cart[id];
+                }
+            }
+            document.getElementById('totalDisplay').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            return total;
+        }
+
+        function kirimPesanan() {
+            const nama = document.getElementById('nama').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+            const total = calculateTotal();
+
+            if (!nama || !whatsapp) {
+                alert("Harap lengkapi nama dan nomor WhatsApp Anda!");
+                return;
+            }
+
+            let rincianPesanan = [];
+            let teksWA = `*Pemesanan Tiket - Wahana Wisata Alam CDS*\n\n`;
+            teksWA += `*Nama Pemesan:* ${nama}\n`;
+            teksWA += `*No. WhatsApp:* ${whatsapp}\n\n`;
+            teksWA += `*Rincian Pesanan:*\n`;
+
+            let adaPesanan = false;
+            for (let id in cart) {
+                if (cart[id] > 0) {
+                    adaPesanan = true;
+                    let p = products.find(prod => prod.id == id);
+                    let subtotal = p.price * cart[id];
+                    teksWA += `- ${p.name} (${cart[id]}x) : Rp ${subtotal.toLocaleString('id-ID')}\n`;
+                    rincianPesanan.push(`${p.name} (${cart[id]}x)`);
+                }
+            }
+
+            if (!adaPesanan) {
+                alert("Silakan pilih minimal 1 item/tiket yang ingin dipesan.");
+                return;
+            }
+
+            teksWA += `\n*Total Bayar:* Rp ${total.toLocaleString('id-ID')}\n\n`;
+            teksWA += `Mohon konfirmasi ketersediaan dan petunjuk pembayaran. Terima kasih!`;
+
+            // Data untuk Spreadsheet
+            const payload = {
+                timestamp: new Date().toLocaleString("id-ID"),
+                nama: nama,
+                whatsapp: whatsapp,
+                rincian: rincianPesanan.join(", "),
+                total: "Rp " + total.toLocaleString('id-ID')
+            };
+
+            // Kirim Data ke Google Spreadsheet (Asynchronous)
+            if (GOOGLE_SCRIPT_URL && !GOOGLE_SCRIPT_URL.includes("AKfycby...")) {
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).catch(err => console.error("Gagal menyimpan ke Google Sheet:", err));
+            }
+
+            // Pengalihan Langsung ke WhatsApp Admin
+            const urlWA = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(teksWA)}`;
+            window.location.href = urlWA;
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
